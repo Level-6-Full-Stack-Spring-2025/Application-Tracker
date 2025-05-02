@@ -1,24 +1,38 @@
 import { Badge } from "./badge";
 import { Button } from "./button";
 
-// add props for job title, company name, tags, etc.
-export default function JobCard() {
+// TODO figure out how to get the badges as a prop (take in a)
+type Tag = {
+    title: string
+    variant: "default" | "progress" | "urgent" | null | undefined
+}
+
+type JobCardProps = {
+    jobTitle: string
+    location: string
+    tags: Tag[]
+}
+export default function JobCard({jobTitle, location, tags}:JobCardProps) {
 
     return(
         <div>
             <div className="flex flex-col items-start bg-card w-90 h-50 rounded-lg px-7 py-5 justify-start text-white">
-                <h1 className="font-lalezar text-lg">AI Platform  Software Engineer Intern</h1>
-                <p className="font-inter text-xs">@ DocuSign, Washington</p>
+                <h1 className="font-lalezar text-lg">{jobTitle}</h1>
+                <p className="font-inter text-xs">{location}</p>
                 <div className="pt-3 flex flex-row flex-wrap gap-1">
-                    {/* TODO: create map type situation to loop through and create all badges/tags necessary for posting */}
-                    <Badge variant={"urgent"}>Urgent</Badge>
-                    <Badge variant={"progress"}>In-progress</Badge>
-                    <Badge>Internship</Badge>
-                    <Badge>$31-$38 /hr</Badge>
-                    <Badge>Python</Badge>
-                    <Badge>AI/ML</Badge>
+                    {
+                        tags.sort((t1: Tag, t2: Tag)=>{
+                            if(t1.variant && !t2.variant) {
+                                return -1
+                            } else {
+                                return 1
+                            }
+                        }).map((tag)=> {
+                            return <Badge variant={tag.variant}>{tag.title}</Badge>
+                        })
+                    }
                 </div>
-                {/* TODO: implement hover and look at what onclick redicrection looks like w/shadcn */}
+                {/* TODO: look at what onclick redicrection looks like w/shadcn */}
                 <div className="flex items-end justify-end flex-row gap-3 font-lalezar w-77 h-50">
                         <Button> Update </Button>
                         <Button> Apply </Button>

@@ -1,4 +1,3 @@
-import { Button } from './components/ui/button'
 import './App.css'
 import JobCard from './components/ui/jobCard'
 
@@ -7,8 +6,7 @@ function App() {
 
   return (
     <>
-     <Button>Hello</Button>
-    <JobCard/>
+    <JobCard jobTitle='AI smth' location='@ Docusign washington' tags={[{title: "In progress", variant: "progress"}, {title: "AI/ML", variant:undefined}, {title: "Urgent", variant: "urgent"}]}/>
     </>
   )
 }

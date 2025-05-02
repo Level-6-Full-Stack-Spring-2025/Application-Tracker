@@ -12,9 +12,9 @@ const badgeVariants = cva(
         default:
           "border-transparent bg-white text-card font-inter",
         progress:
-          "border-transparent bg-lime-200 text-card",
+          "border-transparent bg-border text-card",
         urgent:
-          "border-transparent bg-red-400 text-white ",
+          "border-transparent bg-destructive text-white ",
       },
     },
     defaultVariants: {
