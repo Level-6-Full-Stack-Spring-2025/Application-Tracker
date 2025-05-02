@@ -12,23 +12,52 @@ const listingSchema = new Schema({
 class ListingClass {
     static async createNew(listing) {
         try {
-        const newListing = await Listing.create(listing);
-        return newListing;
+            const newListing = await Listing.create(listing);
+            return newListing;
         }
         catch (e) {
-        console.error(e);
-        return {_id: -1}
+            console.error(e);
+            res.status(500).send("Server error. Fail to create new listing.");
         }
     }
     static async readAll() {
         try {
-        const results = await Listing.find();
-        return results;
+            const results = await Listing.find();
+            return results;
         }
         catch (e) {
-        console.error(e);
-        return [];
+            console.error(e);
+            return [];
         }
+    }
+
+    static async sortByCompany(company) {
+        try {
+            const results = await Listing.find({company: company}).exec();
+            return results;
+          }
+          catch (e) {
+            console.error(e);
+            return [];
+          }
+    }
+
+    static async sortByKeyword(keyword) {
+        try {
+            const results = await Listing.find(
+                $or[
+                { company: { $regex: keyword, $options: 'i' } },
+                { title: { $regex: keyword, $options: 'i' } },
+                { skills: { $regex: keyword, $options: 'i' } },
+                { job_type: { $regex: keyword, $options: 'i' } }
+                ]
+            ).exec();
+            return results;
+          }
+          catch (e) {
+            console.error(e);
+            return [];
+          }
     }
     // static async update(messageId, messageUpdate) {
     //     try {
@@ -43,16 +72,16 @@ class ListingClass {
     //     }
     //     }
     // }
-    // static async delete(messageId) {
-    //     try {
-    //     const result = await Message.deleteOne({_id: messageId});
-    //     return result;
-    //     }
-    //     catch (e) {
-    //     console.error(e);
-    //     return {deletedCount: 0};
-    //     }
-    // }
+    static async delete(listingId) {
+        try {
+            const result = await Listing.deleteOne({_id: listingId});
+            return result;
+        }
+        catch (e) {
+            console.error(e);
+            return {deletedCount: 0};
+        }
+    }
 }
 
 listingSchema.loadClass(ListingClass);
