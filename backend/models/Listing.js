@@ -44,14 +44,14 @@ class ListingClass {
 
     static async sortByKeyword(keyword) {
         try {
-            const results = await Listing.find(
-                $or[
+            const results = await Listing.find({
+                $or: [
                 { company: { $regex: keyword, $options: 'i' } },
                 { title: { $regex: keyword, $options: 'i' } },
                 { skills: { $regex: keyword, $options: 'i' } },
                 { job_type: { $regex: keyword, $options: 'i' } }
                 ]
-            ).exec();
+            }).exec();
             return results;
           }
           catch (e) {

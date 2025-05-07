@@ -17,6 +17,13 @@ app.get('/jobs', async (req, res) => {
     console.log("GET request received on home page, jobs: " + results);
 })
 
+app.get('/searchjob', async(req, res) => {
+  const keyword = req.query.keyword;
+  const results = await Listing.sortByKeyword(keyword);
+  res.send(results);
+  console.log("GET request received on home page, jobs with keyword "+ keyword + ": " + results);
+})
+
 app.post('/createjob', async (req, res) => {
   const newJob = req.body;
 
