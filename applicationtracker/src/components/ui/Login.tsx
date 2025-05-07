@@ -1,12 +1,14 @@
-import React, {useState} from "react";
+// import React, {useState} from "react";
 import {Input} from "@/components/ui/input";
 import {Button } from "@/components/ui/button";
-import {Card, CardHeader, CardTitle, CardDescription, CardContent} from "@/components/ui/card";
+import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card"; 
 
-function LoginPage(){
+//when utilizing component in a page, use this className for grey background: "min-h-screen flex items-center justify-center bg-gray-100 px-4"
+
+function Login(){
     return(
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-            <Card className="w-full max-w-md shadow-lg bg-[#4B48BA] text-white">
+        <div>
+            <Card className="w-full max-w-md shadow-lg bg-card text-white font-lalezar">
                 <CardHeader>
                     <CardTitle className="text-center text-2xl">Log In</CardTitle>
 
@@ -30,7 +32,7 @@ function LoginPage(){
                         required
                     />
                     
-                    <Button className="w-full">LogIn</Button>
+                    <Button className="w-full text-md mt-3">Log In</Button>
                 </form>
                 </CardContent>
             </Card>
@@ -38,4 +40,4 @@ function LoginPage(){
     );
 }
 
-export default LoginPage
+export default Login
