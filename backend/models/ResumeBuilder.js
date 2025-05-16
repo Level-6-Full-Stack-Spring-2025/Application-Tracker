@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 const latex = require('node-latex');
 const path = require('path');
 
-async function generatePDF(data) {
+async function generatePDF(data, res) {
   const templatePath = path.join(__dirname, 'template.tex');
   const outputDir = path.join(__dirname, 'output');
   const texFile = path.join(outputDir, 'document.tex');
@@ -28,6 +28,9 @@ async function generatePDF(data) {
     pdf.pipe(output);
     pdf.on('error', reject);
     pdf.on('finish', () => {
+      res.download(pdfFile, 'resume.pdf',(err)=>{
+        //todo
+      })
       console.log('PDF generated!');
       resolve(pdfFile);
     });

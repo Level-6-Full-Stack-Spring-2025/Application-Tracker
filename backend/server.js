@@ -150,7 +150,7 @@ const data = {
 
 app.get('/submit', async (req, res) => {
   try {
-    const pdfPath = await generatePDF(data);
+    const pdfPath = await generatePDF(data, res);
     res.sendStatus(200);
   } catch (err) {
     res.sendStatus(500);
