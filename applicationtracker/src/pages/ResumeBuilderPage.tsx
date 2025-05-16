@@ -7,11 +7,9 @@ function ResumeBuilderPage() {
     <div>
       <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full">
         <SidebarTrigger />
-        <div>
           <ResumeBuilderForm/>
-        </div>
       </main>
     </SidebarProvider>
     </div>

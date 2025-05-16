@@ -9,7 +9,7 @@ function App() {
 
       <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full">
         <SidebarTrigger />
         <div className="flex flex-col items-center">
             <div className="flex justify-between">
@@ -18,7 +18,7 @@ function App() {
             {/* Job Grid */}
             {/* TODO: Make it so that jobcard content is coming from the actual job postings 
             * NOTE --- if API does not get set up in time, make individual static ones using a separate array with content */}
-            <div className="px-10 grid-cols-3 grid gap-4">
+            <div className=" grid-cols-3 grid gap-4">
                   {Array.from({ length: 10 }).map(() => (
                   <JobCard jobTitle="AI Platform Software Engineer Intern" location="@ Docusign washington" tags={[{ title: "In progress", variant: "progress" }, { title: "AI/ML", variant: undefined }, { title: "Urgent", variant: "urgent" }]} />
                 ))}
