@@ -3,6 +3,7 @@ const express = require('express');
 const { connectMongoose } = require('./connect');
 const Listing = require('./models/Listing');
 const User = require('./models/User');
+const generatePDF = require('./models/ResumeBuilder');
 
 const port = process.env.PORT || 3002;
 const app = express();
@@ -79,6 +80,83 @@ app.delete('/deleteuser', async (req, res) => {
   console.log("DELETE request received on delete route")
   console.log(`Listing deleted with id: ${req.query.id}`);
 })
+
+// ---------------------------------------GENERATE RESUME-----------------------------------------------------
+const data = {
+  name: "Jane Roe",
+  email: "Jane123@gmail.com",
+  github: "Jane123",
+  githubLink: "https://github.com/Jane123",
+  linkedin: "Jane Roe",
+  linkedinLink: "https://www.linkedin.com/in/janeroe/",
+
+  company1: "Tech Innovators Inc.",
+  city1: "Seattle",
+  state1: "WA",
+  jobtitle1: "Software Engineer",
+  startdate1: "Jan 2020",
+  enddate1: "Present",
+  job1item1: "Developed scalable web applications using React and Node.js.",
+  job1item2: "Led a team of 5 developers in transitioning legacy systems to microservices.",
+
+  company2: "NextGen Solutions",
+  city2: "San Francisco",
+  state2: "CA",
+  jobtitle2: "Backend Developer",
+  startdate2: "Jun 2017",
+  enddate2: "Dec 2019",
+  job2item1: "Built and maintained RESTful APIs with Python and Flask.",
+  job2item2: "Improved database performance by optimizing PostgreSQL queries.",
+
+  company3: "CodeCraft LLC",
+  city3: "Austin",
+  state3: "TX",
+  jobtitle3: "Junior Developer",
+  startdate3: "Jul 2015",
+  enddate3: "May 2017",
+  job3item1: "Assisted in developing internal tools using JavaScript and PHP.",
+  job3item2: "Collaborated with senior developers in Agile sprints.",
+
+  school1: "University of Washington",
+  schoolcity1: "Seattle",
+  schoolstate1: "WA",
+  degree1: "Bachelor of Science",
+  field1: "Computer Science",
+  schoolstatedate1: "Sep 2011",
+  schoolenddate1: "Jun 2015",
+
+  school2: "Greenwood Community College",
+  schoolcity2: "Spokane",
+  schoolstate2: "WA",
+  degree2: "Associate Degree",
+  field2: "Information Technology",
+  schoolstatedate2: "Sep 2009",
+  schoolenddate2: "Jun 2011",
+
+  skill1: "Python",
+  skill1level: "5",
+  skill2: "JavaScript",
+  skill2level: "5",
+  skill3: "PHP",
+  skill3level: "4",
+  skill4: "SQL",
+  skill4level: "3",
+
+  project1: "OpenWeather Dashboard",
+  project1link: "https://github.com/username/openweather-dashboard",
+  project2: "Task Manager App",
+  project2link: "https://github.com/username/task-manager-app"
+}
+
+app.get('/submit', async (req, res) => {
+  try {
+    const pdfPath = await generatePDF(data);
+    res.sendStatus(200);
+  } catch (err) {
+    res.sendStatus(500);
+    console.error(err);
+  }
+});
 
 // launching the server
 const start = async () => {
