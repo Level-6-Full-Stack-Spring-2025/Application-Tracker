@@ -1,7 +1,7 @@
-import { Badge } from "./badge";
-import { Button } from "./button";
+import { Badge } from "./ui/badge"
+import { Button } from "./ui/button"
 
-// TODO figure out how to get the badges as a prop (take in a)
+
 type Tag = {
     title: string
     variant: "default" | "progress" | "urgent" | null | undefined
@@ -15,7 +15,7 @@ type JobCardProps = {
 export default function JobCard({jobTitle, location, tags}:JobCardProps) {
 
     return(
-        <div>
+        <div className="flex">
             <div className="flex flex-col items-start bg-card w-90 h-50 rounded-lg px-7 py-5 justify-start text-white">
                 <h1 className="font-lalezar text-lg">{jobTitle}</h1>
                 <p className="font-inter text-xs">{location}</p>
@@ -40,4 +40,5 @@ export default function JobCard({jobTitle, location, tags}:JobCardProps) {
             </div>
         </div>
     );
-}
+  }
+  
