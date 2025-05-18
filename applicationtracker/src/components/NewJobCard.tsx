@@ -2,7 +2,7 @@ import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 
 
-type Tag = {
+export type Tag = {
     title: string
     variant: "default" | "progress" | "urgent" | null | undefined
 }

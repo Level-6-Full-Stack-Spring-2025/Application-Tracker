@@ -138,7 +138,7 @@ export default function ResumeBuilderForm() {
   // };
     return(
       <div className="flex justify-center w-full">
-        <Card className="flex w-200 shadow-lg bg-card text-white font-lalezar">
+        <Card className="flex w-200 shadow-lg bg-card text-white font-lalezar py-5 mb-10">
         <CardHeader>
             <CardTitle className="text-center text-2xl">Build Your Resume</CardTitle>
         </CardHeader>
@@ -475,7 +475,7 @@ export default function ResumeBuilderForm() {
             />  
             </Label>
             <CardFooter>
-              <Button className="w-full text-md mt-3" type="submit">Build Your Resume</Button>
+              <Button className="w-full h-10 text-md mt-5" type="submit">Build Your Resume</Button>
             </CardFooter>
         </form>
         </CardContent>
