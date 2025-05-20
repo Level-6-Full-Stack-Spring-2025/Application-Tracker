@@ -19,23 +19,23 @@ async function generatePDF(data, res) {
 
   await fs.writeFile(texFile, template);
 
-  // Compile LaTeX
-  return new Promise((resolve, reject) => {
-    const input = fs.createReadStream(texFile);
-    const output = fs.createWriteStream(pdfFile);
-    const pdf = latex(input);
+// Compile LaTeX
+  await new Promise((resolve, reject) => {
+    const pdf = latex(fs.createReadStream(texFile))
+      .pipe(fs.createWriteStream(pdfFile))
+      .on('finish', resolve)
+      .on('error', reject);
+  });
 
-    pdf.pipe(output);
-    pdf.on('error', reject);
-    pdf.on('finish', () => {
-      res.download(pdfFile, 'resume.pdf',(err)=>{
-        //todo
-      })
-      console.log('PDF generated!');
-      resolve(pdfFile);
-    });
-  })
-  
+  // Download
+  res.download(pdfFile, 'resume.pdf', async (err) => {
+    if (err) {
+      res.sendStatus(500);
+      throw err;
+    }
+    await fs.remove(texFile); // Cleanup
+    await fs.remove(pdfFile);
+  });
 }
 
 module.exports = generatePDF;
