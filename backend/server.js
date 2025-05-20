@@ -4,6 +4,7 @@ const { connectMongoose } = require("./connect");
 const Listing = require("./models/Listing");
 const User = require("./models/User");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 
 const port = process.env.PORT || 3002;
 const app = express();
@@ -120,21 +121,32 @@ app.post("/signup", async (req, res) => {
 });
 
 // Login Route
-app.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
-  if (!user) return res.status(401).json({ message: "Invalid credentials" });
+    const user = await User.findOne({ email });
+    if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-  const isMatch = await bcrypt.compare(password, user.password);
-  if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-  res
-    .status(200)
-    .json({
-      message: "Login successful",
-      user: { id: user._id, name: user.name, email: user.email },
+    // 🔐 Create JWT
+    const token = jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '2h' }
+    );
+
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: { id: user._id, name: user.name, email: user.email }
     });
+  } catch (err) {
+    console.error("Login Error:", err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 // launching the server
