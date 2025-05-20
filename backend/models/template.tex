@@ -1,0 +1,155 @@
+%------------------------
+% Ethan's Résumé Template
+% Author: necusjz
+% License: CC-BY-4.0
+%------------------------
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage{ragged2e}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\input{glyphtounicode}
+
+% font options
+\usepackage{newpxtext}
+\linespread{1.05}  % palladio needs more leading (space between lines)
+\usepackage[T1]{fontenc}
+
+\pagestyle{fancy}
+\fancyhf{}  % clear all header and footer fields
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% adjust margins
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+\setlength{\footskip}{5pt}
+
+% sections formatting
+\titleformat{\section}{
+  \vspace{-2pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule\vspace{-5pt}]
+
+% ensure that generate pdf is machine readable/ATS parsable
+\pdfgentounicode=1
+
+% custom commands
+\newcommand{\cvitem}[1]{
+  \item\small{
+    {#1\vspace{-2pt}}
+  }
+}
+
+\newcommand{\cvheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \small#3 & \small #4 \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\cvheadingstart}{\begin{itemize}[leftmargin=0in, label={}]}
+\newcommand{\cvheadingend}{\end{itemize}}
+\newcommand{\cvitemstart}{\begin{itemize}[label=\textopenbullet]\justifying}
+\newcommand{\cvitemend}{\end{itemize}\vspace{-5pt}}
+
+\newcommand{\cvskill}[2]{
+  \textcolor{black}{\textbf{#1}}\hfill
+  \foreach \x in {1,...,5}{%
+    \space{\ifnumgreater{\x}{#2}{\color{black!80!white!20}}{\color{black}}\faSquare}}\par%
+  \vspace{-2pt}
+}
+
+\renewcommand\labelitemii{$\vcenter{\hbox{\footnotesize$\bullet$}}$}
+
+\begin{document}
+
+% contact information
+\begin{center}
+  \textbf{\LARGE\scshape \VAR{name}} \\
+  \vspace{1pt}\small
+  \href{mailto:{\VAR{email}}}{\VAR{email}}
+  $\ \diamond\ $ 
+  Phone
+  $\ \diamond\ $
+  \href{\VAR{githubLink}}{\VAR{github}}
+  $\ \diamond\ $
+  \href{\VAR{linkedinLink}}{\VAR{linkedin}}
+\end{center}
+
+\section{Professional Experience}
+\cvheadingstart
+  \cvheading
+    {\VAR{company1}}{\VAR{city1}, \VAR{state1}}
+    {\VAR{jobtitle1}}{\VAR{startdate1} - \VAR{enddate1}}
+  \cvitemstart
+    \cvitem{\VAR{job1item1}}
+    \cvitem{\VAR{job1item2}}
+  \cvitemend
+
+  \cvheading
+    {\VAR{company2}}{\VAR{city2}, \VAR{state2}}
+    {\VAR{jobtitle2}}{\VAR{startdate2} - \VAR{enddate2}}
+  \cvitemstart
+    \cvitem{\VAR{job2item1}}
+    \cvitem{\VAR{job2item2}}
+  \cvitemend
+
+  \cvheading
+    {\VAR{company3}}{\VAR{city3}, \VAR{state3}}
+    {\VAR{jobtitle3}}{\VAR{startdate3} - \VAR{enddate3}}
+  \cvitemstart
+    \cvitem{\VAR{job3item1}}
+    \cvitem{\VAR{job3item2}}
+  \cvitemend
+\cvheadingend
+
+\section{Education}
+\cvheadingstart
+  \cvheading
+    {\VAR{school1}}{\VAR{schoolcity1}, \VAR{schoolstate1}}
+    {\VAR{degree1}, \VAR{field1}}{\VAR{schoolstatedate1} - \VAR{schoolenddate1}}
+  \cvheading
+    {\VAR{school2}}{\VAR{schoolcity2}, \VAR{schoolstate2}}
+    {\VAR{degree2}, \VAR{field2}}{\VAR{schoolstatedate2} - \VAR{schoolenddate2}}
+\cvheadingend
+
+\section{Technical Skills}
+\cvskill{\VAR{skill1}}{\VAR{skill1level}}
+\cvskill{\VAR{skill2}}{\VAR{skill2level}}
+\cvskill{\VAR{skill3}}{\VAR{skill3level}}
+\cvskill{\VAR{skill4}}{\VAR{skill4level}}
+\vspace{-5pt}
+
+\section{Projects}
+\cvheadingstart
+\item
+\cvitemstart
+  \cvitem{\href{\VAR{project1link}}{\VAR{project1}}}
+  \cvitem{\href{\VAR{project2link}}{\VAR{project2}}}
+\cvitemend
+\cvheadingend
+
+\end{document}
