@@ -1,4 +1,4 @@
-import { ClipboardPenLine, Home, FileUser, ChartLine, Settings } from "lucide-react"
+import { ClipboardPenLine, Home, FileUser, ChartLine, Settings, User } from "lucide-react"
 
 import {
   Sidebar,
@@ -13,6 +13,11 @@ import {
 
 // Menu items.
 const items = [
+  {
+    title: "Login",
+    url: "/login",
+    icon: User,
+  },
   {
     title: "Home",
     url: "/",

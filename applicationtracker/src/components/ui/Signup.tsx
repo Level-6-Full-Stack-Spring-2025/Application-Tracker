@@ -72,6 +72,8 @@ function Signup() {
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
+            <p>Already have an account? Login <a href="/login" className="cursor-pointer underline">here</a></p>
+
             <Button className="w-full text-md mt-3" type="submit">
               Sign up
             </Button>

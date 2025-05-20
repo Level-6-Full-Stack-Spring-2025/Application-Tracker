@@ -32,7 +32,6 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <Card className="w-full max-w-md shadow-lg bg-card text-white font-lalezar">
         <CardHeader>
           <CardTitle className="text-center text-2xl">Log In</CardTitle>
@@ -57,13 +56,14 @@ function Login() {
               required
               className="text-white placeholder-white"
             />
+            <p>Don't have an account yet? Sign up <a href="/signup" className="cursor-pointer underline">here</a></p>
+
             <Button className="w-full text-md mt-3" type="submit">
               Log In
             </Button>
           </form>
         </CardContent>
       </Card>
-    </div>
   );
 }
 
