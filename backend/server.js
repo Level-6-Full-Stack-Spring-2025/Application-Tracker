@@ -12,6 +12,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+
+function verifyToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; 
+
+  if (!token) {
+    return res.status(401).json({ message: 'Access denied. No token provided.' });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) return res.status(403).json({ message: 'Invalid token.' });
+    req.user = decoded; 
+    next();
+  });
+}
+
 // ---------------------------------------JOBS-----------------------------------------------------
 app.get("/jobs", async (req, res) => {
   const results = await Listing.readAll();
@@ -131,7 +147,7 @@ app.post('/login', async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-    // 🔐 Create JWT
+  
     const token = jwt.sign(
       { userId: user._id, email: user.email },
       process.env.JWT_SECRET,
