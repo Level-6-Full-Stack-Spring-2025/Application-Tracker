@@ -12,40 +12,69 @@ export default function ResumeBuilderForm() {
     const submitButton = e.currentTarget.querySelector('button[type="submit"]') as HTMLButtonElement;
     if (submitButton) submitButton.disabled = true;
     const data = {
-        name: formData.get("name"),
-        email: formData.get("email"),
-        phone: formData.get("phone"),
-        github: formData.get("github"),
-        linkedin: formData.get("linkedin"),
-        company1: formData.get("company1"),
-        jobLocation1: formData.get("jobLocation1"),
-        title1: formData.get("title1"),
-        dates1: formData.get("dates1"),
-        description1: formData.get("description1"),
-        description2: formData.get("description2"),
-        company2: formData.get("company2"),
-        jobLocation2: formData.get("jobLocation2"),
-        title2: formData.get("title2"),
-        dates2: formData.get("dates2"),
-        description3: formData.get("description3"),
-        description4: formData.get("description4"),
-        schoolName: formData.get("schoolName"),
-        schoolLocation: formData.get("schoolLocation"),
-        degree: formData.get("degree"),
-        schoolDates: formData.get("schoolDates"),
-        skill1: formData.get("skill1"),
-        skillnum1: formData.get("skillnum1"),
-        skill2: formData.get("skill2"),
-        skillnum2: formData.get("skillnum2"),
-        skill3: formData.get("skill3"),
-        skillnum3: formData.get("skillnum3"),
-        skill4: formData.get("skill4"),
-        skillnum4: formData.get("skillnum4"),
-        projecttitle1: formData.get("projecttitle1"),
-        projectlink1: formData.get("projectlink1"),
-        projecttitle2: formData.get("projecttitle2"),
-        projectlink2: formData.get("projectlink2"),
-
+      name: formData.get("name"),
+      email: formData.get("email"),
+      github: "GitHub",
+      githubLink: formData.get("githubLink"),
+      linkedin: "LinkedIn",
+      linkedinLink: formData.get("linkedinLink"),
+      
+      company1: formData.get("company1"),
+      city1: formData.get("city1"),
+      state1: formData.get("state1"),
+      jobtitle1: formData.get("jobtitle1"),
+      startdate1: formData.get("startdate1"),
+      enddate1: formData.get("enddate1"),
+      job1item1: formData.get("job1item1"),
+      job1item2: formData.get("job1item2"),
+      
+      company2: formData.get("company2"),
+      city2: formData.get("city2"),
+      state2: formData.get("state2"),
+      jobtitle2: formData.get("jobtitle2"),
+      startdate2: formData.get("startdate2"),
+      enddate2: formData.get("enddate2"),
+      job2item1: formData.get("job2item1"),
+      job2item2: formData.get("job2item2"),
+      
+      company3: formData.get("company3"),
+      city3: formData.get("city3"),
+      state3: formData.get("state3"),
+      jobtitle3: formData.get("jobtitle3"),
+      startdate3: formData.get("startdate3"),
+      enddate3: formData.get("enddate3"),
+      job3item1: formData.get("job3item1"),
+      job3item2: formData.get("job3item2"),
+      
+      school1: formData.get("school1"),
+      schoolcity1: formData.get("schoolcity1"),
+      schoolstate1: formData.get("schoolstate1"),
+      degree1: formData.get("degree1"),
+      field1: formData.get("field1"),
+      schoolstatedate1: formData.get("schoolstatedate1"),
+      schoolenddate1: formData.get("schoolenddate1"),
+      
+      school2: formData.get("school2"),
+      schoolcity2: formData.get("schoolcity2"),
+      schoolstate2: formData.get("schoolstate2"),
+      degree2: formData.get("degree2"),
+      field2: formData.get("field2"),
+      schoolstatedate2: formData.get("schoolstatedate2"),
+      schoolenddate2: formData.get("schoolenddate2"),
+      
+      skill1: formData.get("skill1"),
+      skill1level: formData.get("skill1level"),
+      skill2: formData.get("skill2"),
+      skill2level: formData.get("skill2level"),
+      skill3: formData.get("skill3"),
+      skill3level: formData.get("skill3level"),
+      skill4: formData.get("skill4"),
+      skill4level: formData.get("skill4level"),
+      
+      project1: formData.get("project1"),
+      project1link: formData.get("project1link"),
+      project2: formData.get("project2"),
+      project2link: formData.get("project2link")
     } 
 
     try{
@@ -59,14 +88,32 @@ export default function ResumeBuilderForm() {
           headers: myHeaders,
           body: raw,
         };
-        fetch("http://localhost:3002/submit", requestOptions) 
-          .then((response) => response.text())
-          .then((result) => console.log(result)) 
-          .catch((error) => console.error(error));
-    }catch(err){
-        console.log(err)
-    }
-  }
+        fetch("http://localhost:3002/submit", requestOptions)
+        .then((response) => {
+          if (!response.ok) throw new Error('Network response was not ok');
+          return response.blob(); // Get the PDF as a blob
+        })
+        .then((blob) => {
+          // Create download link
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'resume.pdf';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
+        })
+        .catch((error) => console.error('Error:', error))
+        .finally(() => {
+          // Re-enable submit button whether success or failure
+          const submitButton = document.querySelector('button[type="submit"]');
+          if (submitButton) submitButton.disabled = false;
+        });
+          }catch(err){
+              console.log(err)
+          }
+        }
   // const [formData, setFormData] = useState({
   //   name: '',
   //   email: '',
@@ -168,22 +215,11 @@ export default function ResumeBuilderForm() {
                 required
             />    
             </Label>
-            <Label className="text-md whitespace-nowrap">
-              Phone Number:
-              <Input
-                name="phone"
-                type="tel"
-                placeholder="Phone Number"
-                // value={formData.phone}
-                // onChange={handleChange}
-                required
-            />
-            </Label>
 
             <Label className="text-md whitespace-nowrap">
               Github URL:
               <Input
-                name="github"
+                name="githubLink"
                 type="url"
                 placeholder="Github"
                 // value={formData.github}
@@ -195,7 +231,7 @@ export default function ResumeBuilderForm() {
             <Label className="text-md whitespace-nowrap">
               LinkedIn URL:
               <Input
-                name="linkedin"
+                name="linkedinLink"
                 type="url"
                 placeholder="LinkedIn"
                 // value={formData.linkedin}
@@ -215,18 +251,26 @@ export default function ResumeBuilderForm() {
                 required
             />  
               <Input
-                name="jobLocation1"
+                name="city1"
                 type="text"
-                placeholder="City, State"
+                placeholder="City"
                 // value={formData.jobLocation1}
                 // onChange={handleChange}
                 required
             />  
+            <Input
+                name="state1"
+                type="text"
+                placeholder="State"
+                // value={formData.jobLocation1}
+                // onChange={handleChange}
+                required
+            />
             </Label>
 
             <Label className="text-xl whitespace-nowrap">
             <Input
-                name="title1"
+                name="jobtitle1"
                 type="text"
                 placeholder="Title"
                 // value={formData.title1}
@@ -234,9 +278,17 @@ export default function ResumeBuilderForm() {
                 required
             />  
               <Input
-                name="dates1"
+                name="startdate1"
                 type="text"
-                placeholder="mm/yyyy - mm/yyyy"
+                placeholder="mon year"
+                // value={formData.dates1}
+                // onChange={handleChange}
+                required
+            />  
+            <Input
+                name="enddate1"
+                type="text"
+                placeholder="mon year"
                 // value={formData.dates1}
                 // onChange={handleChange}
                 required
@@ -245,7 +297,7 @@ export default function ResumeBuilderForm() {
             
             <Label className="text-xl whitespace-nowrap">
             <Input
-                name="description1"
+                name="job1item1"
                 type="text"
                 placeholder="Description"
                 // value={formData.description1}
@@ -253,7 +305,7 @@ export default function ResumeBuilderForm() {
                 required
               />
             <Input
-                name="description2"
+                name="job1item2"
                 type="text"
                 placeholder="Description"
                 // value={formData.description2}
@@ -272,30 +324,46 @@ export default function ResumeBuilderForm() {
                 // onChange={handleChange}
                 required
             />  
-              <Input
-                name="jobLocation2"
+                <Input
+                name="city2"
                 type="text"
-                placeholder="City, State"
-                // value={formData.jobLocation2}
+                placeholder="City"
+                // value={formData.jobLocation1}
                 // onChange={handleChange}
                 required
             />  
+            <Input
+                name="state2"
+                type="text"
+                placeholder="State"
+                // value={formData.jobLocation1}
+                // onChange={handleChange}
+                required
+            />
             </Label>
 
             <Label className="text-xl whitespace-nowrap">
             <Input
-                name="title2"
+                name="jobtitle2"
                 type="text"
                 placeholder="Title"
-                // value={formData.title2}
+                // value={formData.title1}
                 // onChange={handleChange}
                 required
             />  
               <Input
-                name="dates2"
+                name="startdate2"
                 type="text"
-                placeholder="mm/yyyy - mm/yyyy"
-                // value={formData.dates2}
+                placeholder="mon year"
+                // value={formData.dates1}
+                // onChange={handleChange}
+                required
+            />  
+            <Input
+                name="enddate2"
+                type="text"
+                placeholder="mon year"
+                // value={formData.dates1}
                 // onChange={handleChange}
                 required
             />  
@@ -303,28 +371,102 @@ export default function ResumeBuilderForm() {
             
             <Label className="text-xl whitespace-nowrap">
             <Input
-                name="description3"
+                name="job2item1"
                 type="text"
                 placeholder="Description"
-                // value={formData.description3}
+                // value={formData.description1}
                 // onChange={handleChange}
                 required
               />
             <Input
-                name="description4"
+                name="job2item2"
                 type="text"
                 placeholder="Description"
-                // value={formData.description4}
+                // value={formData.description2}
+                // onChange={handleChange}
+                required
+              />
+            </Label>
+
+            Experience #3
+            <Label className="text-xl whitespace-nowrap">
+              <Input
+                name="company3"
+                type="text"
+                placeholder="Company"
+                // value={formData.company2}
+                // onChange={handleChange}
+                required
+            />  
+                <Input
+                name="city3"
+                type="text"
+                placeholder="City"
+                // value={formData.jobLocation1}
+                // onChange={handleChange}
+                required
+            />  
+            <Input
+                name="state3"
+                type="text"
+                placeholder="State"
+                // value={formData.jobLocation1}
+                // onChange={handleChange}
+                required
+            />
+            </Label>
+
+            <Label className="text-xl whitespace-nowrap">
+            <Input
+                name="jobtitle3"
+                type="text"
+                placeholder="Title"
+                // value={formData.title1}
+                // onChange={handleChange}
+                required
+            />  
+              <Input
+                name="startdate3"
+                type="text"
+                placeholder="mon year"
+                // value={formData.dates1}
+                // onChange={handleChange}
+                required
+            />  
+            <Input
+                name="enddate3"
+                type="text"
+                placeholder="mon year"
+                // value={formData.dates1}
+                // onChange={handleChange}
+                required
+            />  
+            </Label>
+            
+            <Label className="text-xl whitespace-nowrap">
+            <Input
+                name="job3item1"
+                type="text"
+                placeholder="Description"
+                // value={formData.description1}
+                // onChange={handleChange}
+                required
+              />
+            <Input
+                name="job3item2"
+                type="text"
+                placeholder="Description"
+                // value={formData.description2}
                 // onChange={handleChange}
                 required
               />
             </Label>
 
             <CardTitle className="text-center text-xl mt-5">Education</CardTitle>
-
+            School #1
             <Label className="text-xl whitespace-nowrap">
             <Input
-                name="schoolName"
+                name="school1"
                 type="text"
                 placeholder="School"
                 // value={formData.schoolName}
@@ -332,28 +474,116 @@ export default function ResumeBuilderForm() {
                 required
               />
             <Input
-                name="schoolLocation"
+                name="schoolcity1"
                 type="text"
-                placeholder="City, State"
+                placeholder="City"
                 // value={formData.schoolLocation}
                 // onChange={handleChange}
                 required
               />
+              <Input
+                name="schoolstate1"
+                type="text"
+                placeholder="State"
+                // value={formData.schoolLocation}
+                // onChange={handleChange}
+                required
+              />
+
             </Label>
 
             <Label className="text-xl whitespace-nowrap">
             <Input
-                name="degree"
+                name="degree1"
                 type="text"
-                placeholder="Degree, Field"
+                placeholder="Degree"
+                // value={formData.degree}
+                // onChange={handleChange}
+                required
+              />
+              <Input
+                name="field1"
+                type="text"
+                placeholder="Field"
                 // value={formData.degree}
                 // onChange={handleChange}
                 required
               />
             <Input
-                name="schoolDates"
+                name="schoolstatedate1"
                 type="text"
-                placeholder="mm/yyyy - mm/yyyy"
+                placeholder="mon year"
+                // value={formData.schoolDates}
+                // onChange={handleChange}
+                required
+              />
+              <Input
+                name="schoolenddate1"
+                type="text"
+                placeholder="mon year"
+                // value={formData.schoolDates}
+                // onChange={handleChange}
+                required
+              />
+            </Label>
+            School #2
+            <Label className="text-xl whitespace-nowrap">
+            <Input
+                name="school2"
+                type="text"
+                placeholder="School"
+                // value={formData.schoolName}
+                // onChange={handleChange}
+                required
+              />
+            <Input
+                name="schoolcity2"
+                type="text"
+                placeholder="City"
+                // value={formData.schoolLocation}
+                // onChange={handleChange}
+                required
+              />
+              <Input
+                name="schoolstate2"
+                type="text"
+                placeholder="State"
+                // value={formData.schoolLocation}
+                // onChange={handleChange}
+                required
+              />
+
+            </Label>
+
+            <Label className="text-xl whitespace-nowrap">
+            <Input
+                name="degree2"
+                type="text"
+                placeholder="Degree"
+                // value={formData.degree}
+                // onChange={handleChange}
+                required
+              />
+              <Input
+                name="field2"
+                type="text"
+                placeholder="Field"
+                // value={formData.degree}
+                // onChange={handleChange}
+                required
+              />
+            <Input
+                name="schoolstatedate2"
+                type="text"
+                placeholder="mon year"
+                // value={formData.schoolDates}
+                // onChange={handleChange}
+                required
+              />
+              <Input
+                name="schoolenddate2"
+                type="text"
+                placeholder="mon year"
                 // value={formData.schoolDates}
                 // onChange={handleChange}
                 required
@@ -372,7 +602,7 @@ export default function ResumeBuilderForm() {
                 required
               />
             <Input
-                name="skillnum1"
+                name="skill1level"
                 type="number"
                 placeholder="Experience Level (e.g. 1)"
                 // value={formData.skillnum1}
@@ -390,7 +620,7 @@ export default function ResumeBuilderForm() {
                 required
               />
             <Input
-                name="skillnum2"
+                name="skill2level"
                 type="number"
                 placeholder="Experience Level (e.g. 1)"
                 // value={formData.skillnum2}
@@ -408,7 +638,7 @@ export default function ResumeBuilderForm() {
                 required
               />
             <Input
-                name="skillnum3"
+                name="skill3level"
                 type="number"
                 placeholder="Experience Level (e.g. 1)"
                 // value={formData.skillnum3}
@@ -426,7 +656,7 @@ export default function ResumeBuilderForm() {
                 required
               />
             <Input
-                name="skillnum4"
+                name="skill4level"
                 type="number"
                 placeholder="Experience Level (e.g. 1)"
                 // value={formData.skillnum4}
@@ -438,7 +668,7 @@ export default function ResumeBuilderForm() {
             Project #1
             <Label className="text-xl whitespace-nowrap">
               <Input
-                name="projecttitle1"
+                name="project1"
                 type="text"
                 placeholder="Project Title"
                 // value={formData.projecttitle1}
@@ -446,7 +676,7 @@ export default function ResumeBuilderForm() {
                 required
             />  
               <Input
-                name="projectlink1"
+                name="project1link"
                 type="url"
                 placeholder="Project URL"
                 // value={formData.projectlink1}
@@ -458,7 +688,7 @@ export default function ResumeBuilderForm() {
             Project #2
             <Label className="text-xl whitespace-nowrap">
               <Input
-                name="projecttitle2"
+                name="project2"
                 type="text"
                 placeholder="Project Title"
                 // value={formData.projecttitle2}
@@ -466,7 +696,7 @@ export default function ResumeBuilderForm() {
                 required
             />  
               <Input
-                name="projectlink2"
+                name="project2link"
                 type="url"
                 placeholder="Project URL"
                 // value={formData.projectlink2}

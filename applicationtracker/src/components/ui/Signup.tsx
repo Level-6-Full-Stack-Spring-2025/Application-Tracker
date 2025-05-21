@@ -1,48 +1,85 @@
-// import React, {useState} from "react";
-import {Input} from "@/components/ui/input";
-import {Button } from "@/components/ui/button";
-import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
+import React, { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-//when utilizing component in a page, use this className for grey background: "min-h-screen flex items-center justify-center bg-gray-100 px-4"
+function Signup() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-function Signup(){
-    return(
-        <div>
-            <Card className="w-full max-w-md shadow-lg bg-card text-white font-lalezar">
-                <CardHeader>
-                    <CardTitle className="text-center text-2xl">Create an Account</CardTitle>
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-                </CardHeader>
-                <CardContent>
-                <form className="space-y-4">
-                    <Input
-                        name="email"
-                        type="email"
-                        placeholder="Email"
-                        //value=
-                        required
-                    />
-                    <Input
-                        name="password"
-                        type="password"
-                        placeholder="Password"
-                        //value=
-                        required
-                    />
-                    <Input
-                        className="text-white placeholder: text-white"
-                        name="confirm password"
-                        type="confirm password"
-                        placeholder="Confirm Password"
-                        //value=
-                        required
-                    />
-                    <Button className="w-full text-md mt-3">Sign up</Button>
-                </form>
-                </CardContent>
-            </Card>
-        </div>
-    );
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3002/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          name: email 
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert("Signup successful!");
+        
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error. Try again later.");
+    }
+  };
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <Card className="w-full max-w-md shadow-lg bg-card text-white font-lalezar">
+        <CardHeader>
+          <CardTitle className="text-center text-2xl">Create an Account</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form className="space-y-4" onSubmit={handleSignup}>
+            <Input
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <Input
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <Input
+              name="confirmPassword"
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <Button className="w-full text-md mt-3" type="submit">
+              Sign up
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }
 
-export default Signup
+export default Signup;

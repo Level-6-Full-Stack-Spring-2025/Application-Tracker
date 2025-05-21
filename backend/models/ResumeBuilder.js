@@ -30,7 +30,6 @@ async function generatePDF(data, res) {
   // Download
   res.download(pdfFile, 'resume.pdf', async (err) => {
     if (err) {
-      res.sendStatus(500);
       throw err;
     }
     await fs.remove(texFile); // Cleanup
